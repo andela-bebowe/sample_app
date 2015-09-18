@@ -1,8 +1,8 @@
 deployment:
   staging:
-  branch: master
-  heroku:
-    appname: obscure-stream-3436
+    branch: master
+    heroku:
+      appname: obscure-stream-3436
 machine:
   ruby:
-  version: 2.1.5
+    version: 2.1.5
