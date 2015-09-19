@@ -36,7 +36,7 @@ class UserTest < ActiveSupport::TestCase
   end
   test "should accept valid emails" do
     valid_emails = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org
-                         first.last@foo.jp alice+bob@baz.cn a@b.co]
+                      first.last@foo.jp alice+bob@baz.cn a@b.co]
     valid_emails.each do |valid_email|
       @user.email = valid_email
       assert @user.valid?, "#{@user.email.inspect} should be valid"
@@ -44,10 +44,16 @@ class UserTest < ActiveSupport::TestCase
   end
   test "should not accept invalid emails" do
     invalid_emails = %w[user.example,com USER@fooCOM A_US-ER@foo_bar.org
-                         first.last@foo+jp bob@alice+baz.cn a_b.c@o.]
+                        first.last@foo+jp bob@alice+baz.cn a_b.c@o.]
     invalid_emails.each do |invalid_email|
       @user.email = invalid_email
       assert_not @user.valid?, "#{@user.email.inspect} should be invalid"
     end
+  end
+  test "should not accept duplicate user" do
+    duplicate_user = @user.dup
+    duplicate_user.email = @user.email.upcase
+    @user.save
+    assert_not duplicate_user.valid?
   end
 end
