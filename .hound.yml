@@ -1,6 +1,6 @@
 scss:
   ignore_file: .scss_ignore
-ruby:
-  config_file: .ruby-style.yml
+css:
+  ignore_file: .css_ignore
 javascript:
   ignore_file: .javascript_ignore
