@@ -1,6 +1,5 @@
 scss:
-  ignore_file: .scss_ignore
-css:
-  ignore_file: .css_ignore
+  enabled: false
+
 javascript:
   ignore_file: .javascript_ignore

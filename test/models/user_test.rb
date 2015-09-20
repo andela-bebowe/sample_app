@@ -36,10 +36,10 @@ class UserTest < ActiveSupport::TestCase
   end
   test "should accept valid emails" do
     valid_emails = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org
-                      first.last@foo.jp alice+bob@baz.cn a@b.co]
+                      first.last@foo.jp alice+bob@baz.cn]
     valid_emails.each do |valid_email|
       @user.email = valid_email
-      assert @user.valid?, "#{@user.email.inspect} should be valid"
+      assert @user.valid?, "#{valid_email.inspect} should be valid"
     end
   end
   test "should not accept invalid emails" do
@@ -47,7 +47,7 @@ class UserTest < ActiveSupport::TestCase
                         first.last@foo+jp bob@alice+baz.cn a_b.c@o.]
     invalid_emails.each do |invalid_email|
       @user.email = invalid_email
-      assert_not @user.valid?, "#{@user.email.inspect} should be invalid"
+      assert_not @user.valid?, "#{invalid_email.inspect} should be invalid"
     end
   end
   test "should not accept duplicate user" do
@@ -60,9 +60,14 @@ class UserTest < ActiveSupport::TestCase
     @user.password = @user.password_confirmation = " " * 6
     assert_not @user.valid?
   end
-
   test "password should have a minimum length" do
     @user.password = @user.password_confirmation = "a" * 5
     assert_not @user.valid?
+  end
+  test "email addresses should be saved as lower-case" do
+    mixed_case_email = "Foo@ExAMPle.CoM"
+    @user.email = mixed_case_email
+    @user.save
+    assert_equal mixed_case_email.downcase, @user.reload.email
   end
 end
